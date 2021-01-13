@@ -15,5 +15,5 @@ StartCoroutine(CBNativeDialog.Instance.Show(title: "title",
             negativeButtonAction: () => { Debug.Log("CANCEL"); }));
 ```
 
-
+<img src="https://user-images.githubusercontent.com/539152/104406617-10834280-55a3-11eb-946f-1505997034fc.png" width=320>
 

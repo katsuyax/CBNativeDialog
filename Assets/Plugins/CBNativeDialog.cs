@@ -23,6 +23,7 @@
 //
 
 using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class CBNativeDialog : MonoBehaviour
@@ -89,13 +90,10 @@ public class CBNativeDialog : MonoBehaviour
         bool isCancelable = false,
         Action cancelAction = null)
     {
-        Debug.Log("*** 1");
         if (_isShow)
         {
             return false;
         }
-
-        Debug.Log("*** 2");
         
         _positiveButtonAction = positiveButtonAction;
         _negativeButtonAction = negativeButtonAction;

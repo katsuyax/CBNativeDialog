@@ -40,12 +40,21 @@ void _CBNativeDialog_show(char *cGameObject,
                                            encoding:NSUTF8StringEncoding];
     NSString *positiveButtonTitle = [NSString stringWithCString:cPositiveButtonTitle
                                                        encoding:NSUTF8StringEncoding];
-    NSString *positiveButtonAction = [NSString stringWithCString:cPositiveButtonAction
-                                                       encoding:NSUTF8StringEncoding];
-    NSString *negativeButtonTitle = [NSString stringWithCString:cNegativeButtonTitle
-                                                       encoding:NSUTF8StringEncoding];
-    NSString *negativeButtonAction = [NSString stringWithCString:cNegativeButtonAction
-                                                       encoding:NSUTF8StringEncoding];
+    NSString *positiveButtonAction = nil;
+    if (cPositiveButtonAction != NULL) {
+        positiveButtonAction = [NSString stringWithCString:cPositiveButtonAction
+                                                           encoding:NSUTF8StringEncoding];
+    }
+    NSString *negativeButtonTitle = nil;
+    if (cNegativeButtonTitle != NULL) {
+        negativeButtonTitle = [NSString stringWithCString:cNegativeButtonTitle
+                                                           encoding:NSUTF8StringEncoding];
+    }
+    NSString *negativeButtonAction = nil;
+    if (cNegativeButtonAction != NULL) {
+        negativeButtonAction = [NSString stringWithCString:cNegativeButtonAction
+                                                           encoding:NSUTF8StringEncoding];
+    }
     CBNativeDialog *nativeDialog = [[CBNativeDialog alloc] init];
     return [nativeDialog
             show:gameObject
@@ -61,9 +70,6 @@ void _CBNativeDialog_show(char *cGameObject,
 @implementation CBNativeDialog : NSObject
 
 - (void)show:(NSString *)gameObject title:(NSString *)title message:(NSString *)message positiveButtonTitle:(NSString *)positiveButtonTitle positiveButtonAction:(NSString *)positiveButtonAction negativeButtonTitle:(NSString *)negativeButtonTitle negativeButtonAction:(NSString *)negativeButtonAction {
-    __block int result = 0;
-    __block bool finished = false;
-    
     UIAlertController *alertContoroller = [UIAlertController
                                            alertControllerWithTitle:title
                                            message:message

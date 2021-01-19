@@ -23,12 +23,14 @@
 //
 
 using System;
+#if !UNITY_EDITOR && UNITY_IOS
 using System.Runtime.InteropServices;
+#endif
 using UnityEngine;
 
 public class CBNativeDialog : MonoBehaviour
 {
-#if UNITY_IPHONE
+#if !UNITY_EDITOR && UNITY_IOS
     [DllImport("__Internal")]
     private static extern void _CBNativeDialog_show(
         string gameObject,
@@ -90,6 +92,11 @@ public class CBNativeDialog : MonoBehaviour
         bool isCancelable = false,
         Action cancelAction = null)
     {
+#if UNITY_EDITOR
+        Debug.LogWarning("Editor is not supported");
+        return false;
+#endif        
+        
         if (_isShow)
         {
             return false;
@@ -100,7 +107,7 @@ public class CBNativeDialog : MonoBehaviour
         _cancelAction = cancelAction;
         _isShow = true;
 
-#if UNITY_IPHONE
+#if !UNITY_EDITOR && UNITY_IOS
         _CBNativeDialog_show(
             gameObject.name, 
             title, 
@@ -109,7 +116,7 @@ public class CBNativeDialog : MonoBehaviour
             "PositiveButtonAction", 
             negativeButtonTitle,
             "NegativeButtonAction");
-#elif UNITY_ANDROID
+#elif !UNITY_EDITOR && UNITY_ANDROID
         AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject activity = unity.GetStatic<AndroidJavaObject>("currentActivity");
         activity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
